@@ -1,0 +1,4 @@
+node_modules
+dist
+.idea
+k8s/clinical-trials-configMap.yml

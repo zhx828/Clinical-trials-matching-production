@@ -1,0 +1,189 @@
+{"swagger": "2.0",
+  "info": {
+    "title": "Clinical Trials Matching",
+    "description": "Matching clinical trials based on OncoKB treatments",
+    "version": "1.0"
+  },
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/trials/{oncoTreeCode}": {
+      "get": {
+        "operationId": "tumortype",
+        "tags": [
+          "/trials"
+        ],
+        "description": "Return queried trials",
+        "parameters": [
+          {
+            "name": "oncoTreeCode",
+            "in": "path",
+            "description": "Tumor type code defined by Oncotree",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "drugName",
+            "in": "query",
+            "description": "OncoKB treatment",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/trials/cancerTypes": {
+      "post": {
+        "operationId": "cancerTypes",
+        "tags": [
+          "/trials"
+        ],
+        "description": "Return a list of trials using OncoTree Cancer Type",
+        "parameters": [
+          {
+            "name": "cancerTypes",
+            "in": "body",
+            "description": "Patient cancer types",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CancerTypesQuery"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Drug": {
+      "type": "object",
+      "required": [
+        "drugName",
+        "ncitCode"
+      ],
+      "properties": {
+        "drugName": {
+          "type": "string"
+        },
+        "ncitCode": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Drug"
+      }
+    },
+    "Trial": {
+      "type": "object",
+      "required": [
+        "nctId",
+        "drugs",
+        "briefTitle",
+        "currentTrialStatus"
+      ],
+      "properties": {
+        "briefTitle": {
+          "type": "string"
+        },
+        "currentTrialStatus": {
+          "type": "string"
+        },
+        "nctId": {
+          "type": "string"
+        },
+        "principalInvestigator": {
+          "type": "string"
+        },
+        "drugs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Drug"
+          },
+          "xml": {
+            "name": "drug",
+            "wrapped": true
+          }
+        },
+        "isUSTrial": {
+          "type": "boolean",
+          "default": "false"
+        }
+      },
+      "xml": {
+        "name": "Trial"
+      }
+    },
+    "Tumor": {
+      "type": "object",
+      "required": [
+        "nciCode",
+        "nciMainType",
+        "tumorName",
+        "trials"
+      ],
+      "properties": {
+        "nciCode": {
+          "type": "string"
+        },
+        "nciMainType": {
+          "type": "string"
+        },
+        "tumorName": {
+          "type": "string"
+        },
+        "trials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Trial"
+          },
+          "xml": {
+            "name": "trial",
+            "wrapped": true
+          }
+        }
+      },
+      "xml": {
+        "name": "Tumor"
+      }
+    },
+    "CancerTypesQuery": {
+      "type": "object",
+      "required": [
+        "cancerTypes"
+      ],
+      "properties": {
+        "cancerTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "xml": {
+        "name": "CancerTypeQuery"
+      }
+    }
+  }
+}
