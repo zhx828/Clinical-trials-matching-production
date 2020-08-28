@@ -32,4 +32,4 @@
    ```
    kubectl port-forward service/clinical-trials-matching 2333:2333
    ```
-    Then you could see API page at  [http://localhost:2333/api-docs](http://localhost:2333/api-docs).
+   Then you could see API page at  [http://localhost:2333/api-docs](http://localhost:2333/api-docs).
