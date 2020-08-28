@@ -25,6 +25,10 @@ spec:
           image: leowisd/clinical-trials-matching:0.0.1
           ports:
             - containerPort: 2333
+          args:
+          - /bin/bash
+          - -c
+          - env; npm run build && node /usr/src/app/dist/app.js
           imagePullPolicy: Always
 ---
 apiVersion: v1

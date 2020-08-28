@@ -8,10 +8,8 @@ WORKDIR /usr/src/app
 COPY *.json ./
 
 RUN npm install
-RUN npm run build
 
 # Bundle app source
 COPY . .
 
 EXPOSE 2333
-CMD ["node", "./dist/app.js"]

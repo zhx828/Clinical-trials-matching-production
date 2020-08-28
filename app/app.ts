@@ -17,8 +17,8 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env["SECRET_KEY"]
 });
 const params = {
-    Bucket: process.env["BUCKET_NAME"],
-    Key: process.env["UPLOAD_PATH"]
+    Bucket: process.env["BUCKET_NAME"] || "",
+    Key: process.env["UPLOAD_PATH"] || ""
 };
 
 
