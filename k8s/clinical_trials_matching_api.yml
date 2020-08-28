@@ -28,7 +28,7 @@ spec:
           args:
           - /bin/bash
           - -c
-          - env; npm run build && node /usr/src/app/dist/app.js
+          - npm run build && node /usr/src/app/dist/app.js
           imagePullPolicy: Always
 ---
 apiVersion: v1
