@@ -1,36 +1,35 @@
-# Clinical Trials Matching Process
-
-Clinical Trials Matching is developed by Python3, Node.js and AWS S3 bucket.
-
-## Trials Matching with OncoKB Treatments
-
-Set a corn job to run `python3 scripts/main.py` daily to update matched result and upload the result json file to AWS S3 bucket.
-
-Note: **We need to config aws authentication first for uploading result to S3 bucket before run the matching script. Please go to [Boto3 Quick Start] for more details.**
-
-## Matching Result API Service
-
-### Development
-
-Please run `npm start` for development and you can see API swagger page at [http://localhost:2333/api-docs](http://localhost:2333/api-docs).
-
+## API Service
 
 ### Production: Build and Upload docker images to Docker Hub
 1.  Build docker image: 
     ```
-    docker build -t clinical-trials-matching:[version] .
+    docker build -t xxxx/clinical-trials-matching:[version] .
     ```
     You can run the command below to see if docker container works.
     ```
-    docker run -p [port]:[port] -d clinical-trials-matching:[version]
+    docker run -p [port]:[port] -d xxxx/clinical-trials-matching:[version]
     ``` 
 2.  Tag image: 
     ```
-    docker tag [imageID] cbioportal/clinical-trials-matching:[version]
+    docker tag [imageID] xxxx/clinical-trials-matching:[version]
     ```
 3.  Push the image to Docker Hub:
     ```
-    docker push cbioportal/clinical-trials-matching:[version]
+    docker push xxxx/clinical-trials-matching:[version]
     ```
 
-[Boto3 Quick Start]: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html 
+### Deployment locally
+1. Apply k8s environment config file(Not include in this repo)
+   ```
+   kubectl apply -f ./k8s/clinical-trials-configMap.yml
+   ```
+
+2. Apply k8s deployment file
+   ```
+   kubectl apply -f ./k8s/clinical_trials_matching_api.yml
+   ```
+3. Forward a local port to a port on the Pod
+   ```
+   kubectl port-forward service/clinical-trials-matching 2333:2333
+   ```
+    Then you could see API page at  [http://localhost:2333/api-docs](http://localhost:2333/api-docs).
